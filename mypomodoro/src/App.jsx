@@ -86,15 +86,16 @@ function App() {
   };
 
   return (
-    <div className={`min-h-screen transition-all duration-500 ${
-      darkMode 
-        ? armyMode 
-          ? 'bg-gradient-to-br from-gray-900 via-red-900 to-gray-800' 
-          : 'bg-gradient-to-br from-gray-900 to-gray-800'
-        : armyMode
-          ? 'bg-gradient-to-br from-red-100 via-pink-100 to-orange-100'
-          : 'bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50'
-    }`}>
+    <div
+  className={`min-h-screen transition-all duration-500 bg-cover bg-center`}
+  style={{
+    backgroundImage: armyMode
+      ? `url(${darkMode ? './assets/bangtanarmy_lightmode_bg.jpeg' : 'assets/bangtanarmy_lightmode_bg.jpeg'})`
+      : darkMode
+        ? 'linear-gradient(to bottom right, #111827, #1f2937)'
+        : 'linear-gradient(to bottom right, #eff6ff, #f5f3ff, #fce7f3)',
+  }}>
+
       
       {/* Header */}
       <header className="p-6">
