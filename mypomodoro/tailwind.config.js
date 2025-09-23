@@ -9,14 +9,23 @@ export default {
     extend: {
       colors: {
         pomodoro: {
-          primary: '#dc2626',
+          primary: '#ef4444',
           secondary: '#f87171',
           light: '#fef2f2',
-          dark: '#991b1b'
+          dark: '#dc2626'
         }
       },
       animation: {
-        'pulse-slow': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'fade-in': 'fadeIn 0.5s ease-out',
+        'bounce-gentle': 'bounce 1s infinite',
+      },
+      backdropBlur: {
+        xs: '2px',
+      },
+      scale: {
+        '102': '1.02',
+        '105': '1.05',
       }
     },
   },
