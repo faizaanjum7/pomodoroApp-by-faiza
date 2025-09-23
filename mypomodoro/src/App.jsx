@@ -90,7 +90,7 @@ function App() {
   className={`min-h-screen transition-all duration-500 bg-cover bg-center`}
   style={{
     backgroundImage: armyMode
-      ? `url(${darkMode ? './assets/bangtanarmy_lightmode_bg.jpeg' : 'assets/bangtanarmy_lightmode_bg.jpeg'})`
+      ? `url(${darkMode ? '/bangtanarmy_lightmode_bg.jpeg' : 'bangtanarmy_darktmode_bg.png'})`
       : darkMode
         ? 'linear-gradient(to bottom right, #111827, #1f2937)'
         : 'linear-gradient(to bottom right, #eff6ff, #f5f3ff, #fce7f3)',
