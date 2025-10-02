@@ -23,7 +23,7 @@ function App() {
       interval = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
     } else if (timeLeft === 0) {
       setIsRunning(false);
-      const audio = new Audio(process.env.PUBLIC_URL + '/notification.mp3');
+      const audio = new Audio(process.env.PUBLIC_URL + '/notfication.mp4');
       audio.play();
       alert(mode === 'focus' ? 'Focus time over! Take a break.' : 'Break over! Back to focus.');
     }
