@@ -25,7 +25,7 @@ function App() {
       setIsRunning(false);
 
       // ✅ Play mp3 notification sound
-      const audio = new Audio(process.env.PUBLIC_URL + '/notification.wav');
+      const audio = new Audio('/notification.wav');
       audio.play().catch(err => console.log("Audio play failed:", err));
 
       alert(mode === 'focus' ? 'Focus time over! Take a break.' : 'Break over! Back to focus.');
