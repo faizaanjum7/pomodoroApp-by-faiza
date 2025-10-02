@@ -10,6 +10,9 @@ function App() {
   const [mins, setMins] = useState(25);
   const [secs, setSecs] = useState(0);
   const audioRef=useRef(null);
+  const [popupMessage, setPopupMessage] = useState('');
+  const [showPopup, setShowPopup] = useState(false);
+
 
   useEffect(() => {
     // preload audio
@@ -55,6 +58,14 @@ useEffect(() => {
           icon: "/icon.png"
         });
       }
+
+       // 🔹 Show in-app popup
+    setPopupMessage(
+      finishedMode === "focus"
+        ? "Focus time is over! Time to take a break."
+        : "Break is over! Back to focus."
+    );
+    setShowPopup(true);
 
       // Auto-switch mode
       if (finishedMode === "focus") {
@@ -132,6 +143,17 @@ useEffect(() => {
           Break
         </button>
       </div>
+
+      {/* In-app popup */}
+    {showPopup && (
+      <div className="popup-overlay">
+        <div className="popup">
+          <p>{popupMessage}</p>
+          <button onClick={() => setShowPopup(false)}>OK</button>
+        </div>
+      </div>
+    )}
+
     </div>
   );
 }
