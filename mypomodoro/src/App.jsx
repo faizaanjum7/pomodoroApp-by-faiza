@@ -40,7 +40,7 @@ function App() {
       }
 
       // ✅ Play sound
-      const audio = new Audio('/notification.mp3');
+      const audio = new Audio('/notification.wav');
       audio.play().catch(err => console.log("Audio blocked:", err));
     }
     return () => clearInterval(interval);
