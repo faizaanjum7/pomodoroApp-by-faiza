@@ -25,26 +25,51 @@ function App() {
   };
 
   useEffect(() => {
-    let interval;
-    if (isRunning && timeLeft > 0) {
-      interval = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
-    } else if (timeLeft === 0) {
-      setIsRunning(false);
+  let interval;
+  if (isRunning && timeLeft > 0) {
+    interval = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
+  } else if (timeLeft === 0) {
+    setIsRunning(false);
 
-      // ✅ Native system notification
-      if ("Notification" in window && Notification.permission === "granted") {
-        new Notification("⏰ Time's up!", {
-          body: mode === 'focus' ? 'Focus time over! Take a break.' : 'Break over! Back to focus.',
-          icon: '/icon.png'
+    // ✅ Play sound
+    const audio = new Audio('/notification.mp3');
+    audio.play().catch(err => console.log("Audio blocked:", err));
+
+    // ✅ Browser notification
+    if ("Notification" in window) {
+      if (Notification.permission === "granted") {
+        new Notification("⏰ Pomodoro Done!", {
+          body: mode === "focus" 
+            ? "Focus time over! Break started (5 min)" 
+            : "Break over! Focus started (25 min)",
+          icon: "/icon.png"
+        });
+      } else if (Notification.permission !== "denied") {
+        Notification.requestPermission().then(permission => {
+          if (permission === "granted") {
+            new Notification("⏰ Pomodoro Done!", {
+              body: mode === "focus" 
+                ? "Focus time over! Break started (5 min)" 
+                : "Break over! Focus started (25 min)",
+              icon: "/icon.png"
+            });
+          }
         });
       }
-
-      // ✅ Play sound
-      const audio = new Audio('/notification.wav');
-      audio.play().catch(err => console.log("Audio blocked:", err));
     }
-    return () => clearInterval(interval);
-  }, [isRunning, timeLeft, mode]);
+
+    // 🔄 Auto-switch mode + reset timer
+    if (mode === "focus") {
+      setMode("break");
+      setTimeLeft(5 * 60);
+    } else {
+      setMode("focus");
+      setTimeLeft(25 * 60);
+    }
+  }
+  return () => clearInterval(interval);
+}, [isRunning, timeLeft, mode]);
+
 
   const switchMode = (newMode) => {
     setMode(newMode);
