@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 
 function App() {
@@ -9,6 +9,13 @@ function App() {
   const [hrs, setHrs] = useState(0);
   const [mins, setMins] = useState(25);
   const [secs, setSecs] = useState(0);
+  const audioRef=useRef(null);
+
+  useEffect(() => {
+    // preload audio
+    audioRef.current = new Audio('/notification.wav');
+    audioRef.current.load();
+  }, []);
 
   useEffect(() => {
     // Ask for notification permission once
@@ -24,51 +31,42 @@ function App() {
     return `${h > 0 ? String(h).padStart(2, '0') + ':' : ''}${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
   };
 
-  useEffect(() => {
-  let interval;
-  if (isRunning && timeLeft > 0) {
-    interval = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
-  } else if (timeLeft === 0) {
-    setIsRunning(false);
+useEffect(() => {
+    let interval;
+    if (isRunning && timeLeft > 0) {
+      interval = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
+    } else if (timeLeft === 0) {
+      setIsRunning(false);
 
-    // ✅ Play sound
-    const audio = new Audio('/notification.mp3');
-    audio.play().catch(err => console.log("Audio blocked:", err));
+      const finishedMode = mode;
 
-    // ✅ Browser notification
-    if ("Notification" in window) {
-      if (Notification.permission === "granted") {
+      // 🔊 Play sound
+      if (audioRef.current) {
+        audioRef.current.currentTime = 0;
+        audioRef.current.play().catch(err => console.log("Audio blocked:", err));
+      }
+
+      // 🔔 Notification
+      if ("Notification" in window && Notification.permission === "granted") {
         new Notification("⏰ Pomodoro Done!", {
-          body: mode === "focus" 
-            ? "Focus time over! Break started (5 min)" 
+          body: finishedMode === "focus"
+            ? "Focus time over! Break started (5 min)"
             : "Break over! Focus started (25 min)",
           icon: "/icon.png"
         });
-      } else if (Notification.permission !== "denied") {
-        Notification.requestPermission().then(permission => {
-          if (permission === "granted") {
-            new Notification("⏰ Pomodoro Done!", {
-              body: mode === "focus" 
-                ? "Focus time over! Break started (5 min)" 
-                : "Break over! Focus started (25 min)",
-              icon: "/icon.png"
-            });
-          }
-        });
+      }
+
+      // Auto-switch mode
+      if (finishedMode === "focus") {
+        setMode("break");
+        setTimeLeft(5 * 60);
+      } else {
+        setMode("focus");
+        setTimeLeft(25 * 60);
       }
     }
-
-    // 🔄 Auto-switch mode + reset timer
-    if (mode === "focus") {
-      setMode("break");
-      setTimeLeft(5 * 60);
-    } else {
-      setMode("focus");
-      setTimeLeft(25 * 60);
-    }
-  }
-  return () => clearInterval(interval);
-}, [isRunning, timeLeft, mode]);
+    return () => clearInterval(interval);
+  }, [isRunning, timeLeft, mode]);
 
 
   const switchMode = (newMode) => {
