@@ -23,8 +23,11 @@ function App() {
       interval = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
     } else if (timeLeft === 0) {
       setIsRunning(false);
-      const audio = new Audio(process.env.PUBLIC_URL + '/notfication.mp4');
-      audio.play();
+
+      // ✅ Play mp3 notification sound
+      const audio = new Audio(process.env.PUBLIC_URL + '/notification.wav');
+      audio.play().catch(err => console.log("Audio play failed:", err));
+
       alert(mode === 'focus' ? 'Focus time over! Take a break.' : 'Break over! Back to focus.');
     }
     return () => clearInterval(interval);
@@ -38,8 +41,10 @@ function App() {
 
   const applyCustomTime = () => {
     const totalSeconds = hrs*3600 + mins*60 + secs;
-    setTimeLeft(totalSeconds);
-    setIsRunning(false);
+    if (totalSeconds > 0) {
+      setTimeLeft(totalSeconds);
+      setIsRunning(false);
+    }
     setShowPicker(false);
   };
 
@@ -48,24 +53,35 @@ function App() {
       <h1>Pomodoro Timer</h1>
 
       <div className="timer-card">
-        <div className="timer-display">
-          <span className="timer-text">{formatTime(timeLeft)}</span>
-          <button onClick={() => setShowPicker(!showPicker)} className="edit-btn">⏱</button>
+        <span className="timer-text">{formatTime(timeLeft)}</span>
+
+        <div className="timer-controls">
+          <button onClick={()=>setIsRunning(!isRunning)} className="start-btn">
+            {isRunning ? 'Pause' : 'Start'}
+          </button>
+          <button onClick={()=>setShowPicker(true)} className="set-btn">
+            Set Time
+          </button>
         </div>
-
-        {showPicker && (
-          <div className="time-picker">
-            <input type="number" min="0" value={hrs} onChange={(e)=>setHrs(Number(e.target.value))}/> hrs
-            <input type="number" min="0" value={mins} onChange={(e)=>setMins(Number(e.target.value))}/> min
-            <input type="number" min="0" value={secs} onChange={(e)=>setSecs(Number(e.target.value))}/> sec
-            <button onClick={applyCustomTime}>Set</button>
-          </div>
-        )}
-
-        <button onClick={()=>setIsRunning(!isRunning)} className="start-btn">
-          {isRunning ? 'Pause' : 'Start'}
-        </button>
       </div>
+
+      {/* Popup Modal */}
+      {showPicker && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h3>Set Custom Time</h3>
+            <div className="time-inputs">
+              <input type="number" min="0" value={hrs} onChange={(e)=>setHrs(Number(e.target.value))}/> hrs
+              <input type="number" min="0" value={mins} onChange={(e)=>setMins(Number(e.target.value))}/> min
+              <input type="number" min="0" value={secs} onChange={(e)=>setSecs(Number(e.target.value))}/> sec
+            </div>
+            <div className="modal-buttons">
+              <button onClick={applyCustomTime}>Apply</button>
+              <button onClick={()=>setShowPicker(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="mode-buttons">
         <button 
