@@ -348,7 +348,7 @@ h1 {
 
 /* === NAVBAR (GLASS STYLE) === */
 .navbarbg {
-  background-color: #000000;
+  background-color: #00000000;
 }
 
 .navbar {
@@ -359,7 +359,7 @@ h1 {
   padding: 14px 24px;
   border-radius: 12px;
   margin: 20px auto;
-  width: 100%;
+  width: fit-content;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
