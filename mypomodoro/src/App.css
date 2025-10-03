@@ -359,7 +359,7 @@ h1 {
   padding: 14px 24px;
   border-radius: 12px;
   margin: 20px auto;
-  width: fit-content;
+  width: 100%;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
