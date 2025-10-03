@@ -280,12 +280,12 @@ h1 {
   outline: none;
   min-width: 250px;
   background: rgba(255, 255, 255, 0.15);
-  color: #fff;
+  color: #000000;
   font-size: 1rem;
 }
 
 .agenda-box input::placeholder {
-  color: #ddd;
+  color: #000000;
 }
 
 .agenda-box button {
@@ -343,4 +343,58 @@ h1 {
 .agenda-container li button:hover {
   color: #e056fd;
   transform: rotate(90deg);
+}
+
+
+/* === NAVBAR (GLASS STYLE) === */
+.navbar {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  background: transparent;
+  backdrop-filter: blur(12px);
+  padding: 14px 24px;
+  border-radius: 12px;
+  margin: 20px auto;
+  width: fit-content;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.navbar a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  font-size: 1.05rem;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+/* underline effect on hover */
+.navbar a::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  left: 0;
+  bottom: -6px;
+  background: #ff7675;
+  transition: width 0.3s ease;
+}
+
+.navbar a:hover {
+  color: #ff7675;
+}
+
+.navbar a:hover::after {
+  width: 100%;
+}
+
+/* active link highlight */
+.navbar a.active {
+  color: #ff7675;
+}
+
+.navbar a.active::after {
+  width: 100%;
 }

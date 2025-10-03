@@ -9,11 +9,22 @@ function App() {
     <Router>
       <div>
         {/* Navbar */}
-        <nav className="navbar">
-  <NavLink to="/" end className={({ isActive }) => (isActive ? "active" : "")}>
+       <nav className="navbar">
+  <NavLink
+    to="/"
+    end
+    className={({ isActive }) =>
+      "nav-link" + (isActive ? " active" : "")
+    }
+  >
     Pomodoro
   </NavLink>
-  <NavLink to="/agenda" className={({ isActive }) => (isActive ? "active" : "")}>
+  <NavLink
+    to="/agenda"
+    className={({ isActive }) =>
+      "nav-link" + (isActive ? " active" : "")
+    }
+  >
     Agenda
   </NavLink>
 </nav>
