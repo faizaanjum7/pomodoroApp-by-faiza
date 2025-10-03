@@ -402,19 +402,16 @@ h1 {
   width: 100%;
 }
 
-/* Scrollbar track (background) */
-::-webkit-scrollbar {
-  width: 10px; /* width of the scrollbar */
+/* RIGHT SIDE PROGRESS BAR */
+.progress-bar {
+  position: fixed;          /* stay on right side of screen */
+  top: 0;
+  right: 0;
+  width: 8px;               /* thickness */
+  height: 0%;               /* updated dynamically via inline style */
+  background: linear-gradient(135deg, #ff7675, #6c5ce7); /* match Pomodoro gradient */
+  border-radius: 4px 0 0 4px;
+  z-index: 100;             /* above other elements */
+  transition: height 0.3s linear; /* smooth animation */
 }
 
-/* Scrollbar thumb (the draggable part) */
-::-webkit-scrollbar-thumb {
-  background-color: #b4b1cd; /* change this to any color you want */
-  border-radius: 10px;       /* rounded edges */
-}
-
-/* Scrollbar track (background behind thumb) */
-::-webkit-scrollbar-track {
-  background: rgba(255,255,255,0.1); /* track background */
-  border-radius: 10px;
-}
