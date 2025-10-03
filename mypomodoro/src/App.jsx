@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, NavLink } from "react-router-dom";
 import Pomodoro from "./Pomodoro"; 
 import Agenda from "./Agenda"; 
 import "./App.css";
@@ -10,8 +10,8 @@ function App() {
       <div>
         {/* Navbar */}
         <nav className="navbar">
-          <Link to="/">Pomodoro</Link>
-          <Link to="/agenda">Agenda</Link>
+          <NavLink to="/">Pomodoro</NavLink>
+          <NavLink to="/agenda">Agenda</NavLink>
         </nav>
 
         {/* Pages */}
