@@ -347,13 +347,15 @@ h1 {
 
 
 /* === NAVBAR (GLASS STYLE) === */
+.navbarbg {
+  background-color: #000000;
+}
 
 .navbar {
   display: flex;
   justify-content: center;
   gap: 40px;
   background: linear-gradient(135deg, #a1c4fd, #c2e9fb); 
-  backdrop-filter: blur(12px);
   padding: 14px 24px;
   border-radius: 12px;
   margin: 20px auto;
@@ -398,4 +400,21 @@ h1 {
 
 .navbar a.active::after {
   width: 100%;
+}
+
+/* Scrollbar track (background) */
+::-webkit-scrollbar {
+  width: 10px; /* width of the scrollbar */
+}
+
+/* Scrollbar thumb (the draggable part) */
+::-webkit-scrollbar-thumb {
+  background-color: #b4b1cd; /* change this to any color you want */
+  border-radius: 10px;       /* rounded edges */
+}
+
+/* Scrollbar track (background behind thumb) */
+::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.1); /* track background */
+  border-radius: 10px;
 }

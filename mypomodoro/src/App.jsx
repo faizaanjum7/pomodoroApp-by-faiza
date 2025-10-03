@@ -7,7 +7,7 @@ import "./App.css";
 function App() {
   return (
     <Router>
-      <div>
+      <div className="navbarbg">
         {/* Navbar */}
        <nav className="navbar">
   <NavLink
