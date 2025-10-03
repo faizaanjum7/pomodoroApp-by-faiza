@@ -401,4 +401,25 @@ h1 {
   width: 100%;
 }
 
+/* Customize the overall scrollbar */
+::-webkit-scrollbar {
+  width: 12px; /* Width of the entire scrollbar */
+}
+
+/* Customize the scrollbar track (the background) */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Customize the scrollbar thumb (the movable handle) */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px; /* Adds rounded corners */
+}
+
+/* Change the thumb color on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 
