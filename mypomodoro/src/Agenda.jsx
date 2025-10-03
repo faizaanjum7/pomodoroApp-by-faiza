@@ -35,10 +35,7 @@ function Agenda() {
         />
         <button onClick={addTask}>Add</button>
       </div>
-      <div className="progress-bar" style={{
-  height: `${100 - (timeLeft / (mode === 'focus' ? 25*60 : 5*60)) * 100}%`
-}}></div>
-
+      
 
       <ul>
         {tasks.map((task, index) => (

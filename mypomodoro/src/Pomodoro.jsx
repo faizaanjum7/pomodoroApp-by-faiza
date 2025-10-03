@@ -144,9 +144,7 @@ useEffect(() => {
         </button>
       </div>
 
-      <div className="progress-bar" style={{
-  height: `${100 - (timeLeft / (mode === 'focus' ? 25*60 : 5*60)) * 100}%`
-}}></div>
+
 
 
       {/* In-app popup */}
