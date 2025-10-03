@@ -26,6 +26,12 @@ function Agenda() {
           placeholder="Enter your task..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => {
+            if(e.key === "Enter")
+            {
+              addTask();
+            }
+          }}
         />
         <button onClick={addTask}>Add</button>
       </div>
