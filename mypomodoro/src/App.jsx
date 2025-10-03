@@ -10,9 +10,14 @@ function App() {
       <div>
         {/* Navbar */}
         <nav className="navbar">
-          <NavLink to="/">Pomodoro</NavLink>
-          <NavLink to="/agenda">Agenda</NavLink>
-        </nav>
+  <NavLink to="/" end className={({ isActive }) => (isActive ? "active" : "")}>
+    Pomodoro
+  </NavLink>
+  <NavLink to="/agenda" className={({ isActive }) => (isActive ? "active" : "")}>
+    Agenda
+  </NavLink>
+</nav>
+
 
         {/* Pages */}
         <Routes>

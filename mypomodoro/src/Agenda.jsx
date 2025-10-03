@@ -2,18 +2,18 @@ import React, { useState } from "react";
 import "./App.css";
 
 function Agenda() {
-  const [agenda, setAgenda] = useState("");
-  const [items, setItems] = useState([]);
+  const [tasks, setTasks] = useState([]);
+  const [input, setInput] = useState("");
 
-  const addAgenda = () => {
-    if (agenda.trim() !== "") {
-      setItems([...items, agenda]);
-      setAgenda("");
+  const addTask = () => {
+    if (input.trim()) {
+      setTasks([...tasks, input]);
+      setInput("");
     }
   };
 
-  const removeAgenda = (index) => {
-    setItems(items.filter((_, i) => i !== index));
+  const deleteTask = (index) => {
+    setTasks(tasks.filter((_, i) => i !== index));
   };
 
   return (
@@ -23,25 +23,21 @@ function Agenda() {
       <div className="agenda-box">
         <input
           type="text"
-          value={agenda}
-          onChange={(e) => setAgenda(e.target.value)}
           placeholder="Enter your task..."
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
         />
-        <button onClick={addAgenda}>Add</button>
+        <button onClick={addTask}>Add</button>
       </div>
 
-      {items.length === 0 ? (
-        <p>No agenda yet...</p>
-      ) : (
-        <ul>
-          {items.map((item, index) => (
-            <li key={index}>
-              {item}{" "}
-              <button onClick={() => removeAgenda(index)}>✕</button>
-            </li>
-          ))}
-        </ul>
-      )}
+      <ul>
+        {tasks.map((task, index) => (
+          <li key={index}>
+            <span>{task}</span>
+            <button onClick={() => deleteTask(index)}>✖</button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

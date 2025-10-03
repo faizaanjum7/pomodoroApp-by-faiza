@@ -249,56 +249,98 @@ h1 {
   }
 }
 
-
-/* === NAVBAR (GLASS STYLE) === */
-.navbar {
+/* === AGENDA PAGE (BETTER STYLE) === */
+.agenda-container {
   display: flex;
-  justify-content: center;
-  gap: 40px;
-  background: transparent;
-  backdrop-filter: blur(12px);
-  padding: 14px 24px;
-  border-radius: 12px;
-  margin: 20px auto;
-  width: fit-content;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-}
-
-.navbar a {
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
   color: #fff;
-  text-decoration: none;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.agenda-container h1 {
+  font-size: 2.4rem;
+  margin-bottom: 25px;
+  background: linear-gradient(135deg, #ff7675, #6c5ce7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.agenda-box {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.agenda-box input {
+  padding: 12px 16px;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  min-width: 250px;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 1rem;
+}
+
+.agenda-box input::placeholder {
+  color: #ddd;
+}
+
+.agenda-box button {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #ff7675, #e056fd);
+  color: white;
   font-weight: 600;
-  letter-spacing: 0.5px;
-  font-size: 1.05rem;
-  position: relative;
-  transition: color 0.3s ease;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
 }
 
-/* underline effect on hover */
-.navbar a::after {
-  content: "";
-  position: absolute;
-  width: 0%;
-  height: 2px;
-  left: 0;
-  bottom: -6px;
-  background: #ff7675;
-  transition: width 0.3s ease;
+.agenda-box button:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
 }
 
-.navbar a:hover {
-  color: #ff7675;
-}
-
-.navbar a:hover::after {
+.agenda-container ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
   width: 100%;
+  max-width: 400px;
 }
 
-/* active link highlight */
-.navbar a.active {
+.agenda-container li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  font-size: 1rem;
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  transition: transform 0.2s;
+}
+
+.agenda-container li:hover {
+  transform: scale(1.02);
+}
+
+.agenda-container li button {
+  border: none;
+  background: transparent;
   color: #ff7675;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: transform 0.2s, color 0.2s;
 }
 
-.navbar a.active::after {
-  width: 100%;
+.agenda-container li button:hover {
+  color: #e056fd;
+  transform: rotate(90deg);
 }
