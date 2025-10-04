@@ -9,19 +9,16 @@ function Pomodoro() {
   const [hrs, setHrs] = useState(0);
   const [mins, setMins] = useState(25);
   const [secs, setSecs] = useState(0);
-  const audioRef=useRef(null);
+  const audioRef = useRef(null);
   const [popupMessage, setPopupMessage] = useState('');
   const [showPopup, setShowPopup] = useState(false);
 
-
   useEffect(() => {
-    // preload audio
     audioRef.current = new Audio('/notification.wav');
     audioRef.current.load();
   }, []);
 
   useEffect(() => {
-    // Ask for notification permission once
     if ("Notification" in window && Notification.permission !== "granted") {
       Notification.requestPermission();
     }
@@ -34,51 +31,59 @@ function Pomodoro() {
     return `${h > 0 ? String(h).padStart(2, '0') + ':' : ''}${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
   };
 
-useEffect(() => {
-    let interval;
-    if (isRunning && timeLeft > 0) {
-      interval = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
-    } else if (timeLeft === 0) {
-      setIsRunning(false);
+  // ✅ Accurate timer logic
+  useEffect(() => {
+    if (!isRunning) return;
 
-      const finishedMode = mode;
+    const startTime = Date.now();
+    const endTime = startTime + timeLeft * 1000;
 
-      // 🔊 Play sound
-      if (audioRef.current) {
-        audioRef.current.currentTime = 0;
-        audioRef.current.play().catch(err => console.log("Audio blocked:", err));
-      }
+    const interval = setInterval(() => {
+      const now = Date.now();
+      const remaining = Math.round((endTime - now) / 1000);
 
-      // 🔔 Notification
-      if ("Notification" in window && Notification.permission === "granted") {
-        new Notification("⏰ Pomodoro Done!", {
-          body: finishedMode === "focus"
-            ? "Focus time over! Break started (5 min)"
-            : "Break over! Focus started (25 min)",
-          icon: "/icon.png"
-        });
-      }
-
-       // 🔹 Show in-app popup
-    setPopupMessage(
-      finishedMode === "focus"
-        ? "Focus time is over! Time to take a break."
-        : "Break is over! Back to focus."
-    );
-    setShowPopup(true);
-
-      // Auto-switch mode
-      if (finishedMode === "focus") {
-        setMode("break");
-        setTimeLeft(5 * 60);
+      if (remaining >= 0) {
+        setTimeLeft(remaining);
       } else {
-        setMode("focus");
-        setTimeLeft(25 * 60);
-      }
-    }
-    return () => clearInterval(interval);
-  }, [isRunning, timeLeft, mode]);
+        clearInterval(interval);
+        setTimeLeft(0);
+        setIsRunning(false);
 
+        const finishedMode = mode;
+
+        if (audioRef.current) {
+          audioRef.current.currentTime = 0;
+          audioRef.current.play().catch(err => console.log("Audio blocked:", err));
+        }
+
+        if ("Notification" in window && Notification.permission === "granted") {
+          new Notification("⏰ Pomodoro Done!", {
+            body: finishedMode === "focus"
+              ? "Focus time over! Break started (5 min)"
+              : "Break over! Focus started (25 min)",
+            icon: "/icon.png"
+          });
+        }
+
+        setPopupMessage(
+          finishedMode === "focus"
+            ? "Focus time is over! Time to take a break."
+            : "Break is over! Back to focus."
+        );
+        setShowPopup(true);
+
+        if (finishedMode === "focus") {
+          setMode("break");
+          setTimeLeft(5 * 60);
+        } else {
+          setMode("focus");
+          setTimeLeft(25 * 60);
+        }
+      }
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, [isRunning, mode]);
 
   const switchMode = (newMode) => {
     setMode(newMode);
@@ -144,19 +149,14 @@ useEffect(() => {
         </button>
       </div>
 
-
-
-
-      {/* In-app popup */}
-    {showPopup && (
-      <div className="popup-overlay">
-        <div className="popup">
-          <p>{popupMessage}</p>
-          <button onClick={() => setShowPopup(false)}>OK</button>
+      {showPopup && (
+        <div className="popup-overlay">
+          <div className="popup">
+            <p>{popupMessage}</p>
+            <button onClick={() => setShowPopup(false)}>OK</button>
+          </div>
         </div>
-      </div>
-    )}
-
+      )}
     </div>
   );
 }
