@@ -385,15 +385,13 @@ h1 {
 }
 
 
-
 /* === NAVBAR (GLASS STYLE) === */
 
 .navbar {
   display: flex;
   justify-content: center;
   gap: 40px;
-  background: rgba(255, 255, 255, 0.15); /* ✅ glass effect */
-  backdrop-filter: blur(10px);
+  background: linear-gradient(135deg, #a1c4fd, #c2e9fb); 
   padding: 14px 24px;
   border-radius: 12px;
   margin: 20px auto;
