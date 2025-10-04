@@ -4,19 +4,21 @@ body, html, #root
 {
   height: 100%;
   margin: 0;
+  background: linear-gradient(135deg, #a1c4fd, #c2e9fb); /* calm gradient */
   font-family: 'Segoe UI', sans-serif;
 }
 
 
 .appcontainer
 {
-  min-height: 100vh;
+  min-height: 50vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #a1c4fd, #c2e9fb); /* calm gradient */
+  background: transparent; /* calm gradient */
   text-align: center;
+  margin: 0;
 }
 
 /* Heading */
@@ -391,7 +393,7 @@ h1 {
   display: flex;
   justify-content: center;
   gap: 40px;
-  background: linear-gradient(135deg, #a1c4fd, #c2e9fb); 
+  background: linear-gradient(135deg, #acccff, #7eb6ff); 
   padding: 14px 24px;
   border-radius: 12px;
   margin: 20px auto;

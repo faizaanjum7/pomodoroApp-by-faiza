@@ -7,7 +7,6 @@ import "./App.css";
 function App() {
   return (
     <Router>
-      <div className="navbarbg">
         {/* Navbar */}
        <nav className="navbar">
   <NavLink
@@ -35,8 +34,6 @@ function App() {
           <Route path="/" element={<Pomodoro />} />
           <Route path="/agenda" element={<Agenda />} />
         </Routes>
-      </div>
-
       
     </Router>
   );
