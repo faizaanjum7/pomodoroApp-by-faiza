@@ -6,6 +6,10 @@ body, html, #root
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
 }
+body, html {
+  padding: 0;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+}
 
 .appcontainer
 {
@@ -255,6 +259,7 @@ h1 {
   align-items: center;
   margin-top: 40px;
   color: #fff;
+   padding: 2rem;
   font-family: 'Segoe UI', sans-serif;
 }
 
@@ -268,9 +273,14 @@ h1 {
 
 .agenda-box {
   display: flex;
-  gap: 12px;
-  margin-bottom: 25px;
+  gap: 10px;
+  align-items: center;
+  background: rgba(255,255,255,0.3);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 10px;
 }
+
 
 .agenda-box input {
   padding: 12px 16px;
@@ -306,9 +316,9 @@ h1 {
 .agenda-container ul {
   list-style: none;
   padding: 0;
-  margin-top: 10px;
+  margin-top: 20px;
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
 }
 
 .agenda-container li {
@@ -324,6 +334,9 @@ h1 {
   color: #000000;
   box-shadow: 0 2px 10px rgba(0,0,0,0.2);
   transition: transform 0.2s;
+  word-wrap: break-word; /* ✅ wraps long text */
+  overflow-wrap: break-word;
+  flex-wrap: wrap;
 }
 
 .agenda-container li:hover {
@@ -347,7 +360,10 @@ h1 {
 
 /* === NAVBAR (GLASS STYLE) === */
 .navbarbg {
-  background-color: #00000000;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
 }
 
 .navbar {
@@ -401,25 +417,21 @@ h1 {
   width: 100%;
 }
 
-/* Customize the overall scrollbar */
+/* Scrollbar Styling (works in Chrome, Edge, Brave, etc.) */
 ::-webkit-scrollbar {
-  width: 12px; /* Width of the entire scrollbar */
+  width: 10px;
 }
 
-/* Customize the scrollbar track (the background) */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
 }
 
-/* Customize the scrollbar thumb (the movable handle) */
 ::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 10px; /* Adds rounded corners */
+  background: linear-gradient(180deg, #ff758c, #ff7eb3);
+  border-radius: 10px;
 }
 
-/* Change the thumb color on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: linear-gradient(180deg, #ff7eb3, #ff758c);
 }
-
-
