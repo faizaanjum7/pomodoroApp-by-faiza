@@ -24,6 +24,21 @@ function Pomodoro() {
     }
   }, []);
 
+  // Restore saved state from localStorage
+  useEffect(() => {
+    const savedState = JSON.parse(localStorage.getItem("pomodoroState"));
+    if (savedState) {
+      setMode(savedState.mode);
+      setIsRunning(savedState.isRunning);
+      if (savedState.endTime && savedState.isRunning) {
+        const remaining = Math.round((savedState.endTime - Date.now()) / 1000);
+        setTimeLeft(remaining > 0 ? remaining : 0);
+      } else {
+        setTimeLeft(savedState.timeLeft || 25 * 60);
+      }
+    }
+  }, []);
+
   const formatTime = (seconds) => {
     const h = Math.floor(seconds / 3600);
     const m = Math.floor((seconds % 3600) / 60);
@@ -31,16 +46,19 @@ function Pomodoro() {
     return `${h > 0 ? String(h).padStart(2, '0') + ':' : ''}${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
   };
 
-  // ✅ Accurate timer logic
+  // Accurate + Persistent timer logic
   useEffect(() => {
-    if (!isRunning) return;
+    if (!isRunning) {
+      localStorage.setItem("pomodoroState", JSON.stringify({ mode, timeLeft, isRunning }));
+      return;
+    }
 
-    const startTime = Date.now();
-    const endTime = startTime + timeLeft * 1000;
+    const endTime = Date.now() + timeLeft * 1000;
+    localStorage.setItem("pomodoroState", JSON.stringify({ mode, timeLeft, isRunning, endTime }));
 
     const interval = setInterval(() => {
-      const now = Date.now();
-      const remaining = Math.round((endTime - now) / 1000);
+      const saved = JSON.parse(localStorage.getItem("pomodoroState"));
+      const remaining = Math.round((saved.endTime - Date.now()) / 1000);
 
       if (remaining >= 0) {
         setTimeLeft(remaining);
@@ -79,6 +97,12 @@ function Pomodoro() {
           setMode("focus");
           setTimeLeft(25 * 60);
         }
+
+        localStorage.setItem("pomodoroState", JSON.stringify({
+          mode: finishedMode === "focus" ? "break" : "focus",
+          timeLeft: finishedMode === "focus" ? 5 * 60 : 25 * 60,
+          isRunning: false
+        }));
       }
     }, 500);
 
@@ -89,6 +113,11 @@ function Pomodoro() {
     setMode(newMode);
     setTimeLeft(newMode === 'focus' ? 25 * 60 : 5 * 60);
     setIsRunning(false);
+    localStorage.setItem("pomodoroState", JSON.stringify({
+      mode: newMode,
+      timeLeft: newMode === 'focus' ? 25 * 60 : 5 * 60,
+      isRunning: false
+    }));
   };
 
   const applyCustomTime = () => {
@@ -96,6 +125,11 @@ function Pomodoro() {
     if (totalSeconds > 0) {
       setTimeLeft(totalSeconds);
       setIsRunning(false);
+      localStorage.setItem("pomodoroState", JSON.stringify({
+        mode,
+        timeLeft: totalSeconds,
+        isRunning: false
+      }));
     }
     setShowPicker(false);
   };
