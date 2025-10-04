@@ -356,12 +356,6 @@ h1 {
 
 
 /* === NAVBAR (GLASS STYLE) === */
-.navbarbg {
-  background: transparent;
-  display: flex;
-  justify-content: center;
-  padding-top: 20px;
-}
 
 .navbar {
   display: flex;
