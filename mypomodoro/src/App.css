@@ -452,6 +452,32 @@ li:active {
   background-color: #f5f5f5;
 }
 
+ul li {
+  transition: all 0.2s ease;
+  list-style: none;
+}
+
+ul li.removing {
+  opacity: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+}
+
+ul li {
+  position: relative;
+  background-color: #fff;
+  cursor: grab;
+}
+
+ul li:active {
+  cursor: grabbing;
+}
+
+ul li.dragging {
+  z-index: 1000;
+}
+
 
 /* Scrollbar Styling (works in Chrome, Edge, Brave, etc.) */
 ::-webkit-scrollbar {

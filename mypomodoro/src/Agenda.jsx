@@ -20,9 +20,16 @@ function Agenda() {
     }
   };
 
-  const deleteTask = (index) => {
-    setTasks(tasks.filter((_, i) => i !== index));
-  };
+ const deleteTask = (index) => {
+  const element = document.getElementById(tasks[index].id);
+  if (element) {
+    element.classList.add("removing");
+    setTimeout(() => {
+      setTasks((prev) => prev.filter((_, i) => i !== index));
+    }, 200); // matches CSS transition
+  }
+};
+
 
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
@@ -56,18 +63,21 @@ function Agenda() {
               ref={provided.innerRef}
             >
               {tasks.map((task, index) => (
-                <Draggable key={index.toString()} draggableId={index.toString()} index={index}>
-                  {(provided) => (
+                <Draggable key={task.id} draggableId={task.id} index={index}>
+                  {(provided, snapshot) => (
                     <li
+                      id={task.id}
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
+                      className={snapshot.isDragging ? "dragging" : ""}
                     >
-                      <span>{task}</span>
+                      <span>{task.text}</span>
                       <button onClick={() => deleteTask(index)}>✖</button>
                     </li>
                   )}
                 </Draggable>
+
               ))}
               {provided.placeholder}
             </ul>
