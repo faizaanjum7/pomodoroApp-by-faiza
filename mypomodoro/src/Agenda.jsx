@@ -15,21 +15,21 @@ function Agenda() {
 
   const addTask = () => {
     if (input.trim()) {
-      setTasks([...tasks, input]);
+      const newTask = { id: Date.now().toString(), text: input };
+      setTasks([...tasks, newTask]);
       setInput("");
     }
   };
 
- const deleteTask = (index) => {
-  const element = document.getElementById(tasks[index].id);
-  if (element) {
-    element.classList.add("removing");
-    setTimeout(() => {
-      setTasks((prev) => prev.filter((_, i) => i !== index));
-    }, 200); // matches CSS transition
-  }
-};
-
+  const deleteTask = (index) => {
+    const element = document.getElementById(tasks[index].id);
+    if (element) {
+      element.classList.add("removing");
+      setTimeout(() => {
+        setTasks((prev) => prev.filter((_, i) => i !== index));
+      }, 200);
+    }
+  };
 
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
@@ -48,9 +48,7 @@ function Agenda() {
           placeholder="Enter your task..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") addTask();
-          }}
+          onKeyDown={(e) => e.key === "Enter" && addTask()}
         />
         <button onClick={addTask}>Add</button>
       </div>
@@ -58,10 +56,7 @@ function Agenda() {
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="tasks">
           {(provided) => (
-            <ul
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
+            <ul {...provided.droppableProps} ref={provided.innerRef}>
               {tasks.map((task, index) => (
                 <Draggable key={task.id} draggableId={task.id} index={index}>
                   {(provided, snapshot) => (
@@ -77,7 +72,6 @@ function Agenda() {
                     </li>
                   )}
                 </Draggable>
-
               ))}
               {provided.placeholder}
             </ul>
