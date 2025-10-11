@@ -14,13 +14,11 @@ function Agenda() {
   }, [tasks]);
 
   const addTask = () => {
-  if (input.trim()) {
-    const newTask = { id: Date.now().toString(), text: input };
-    setTasks([...tasks, newTask]);
-    setInput("");
-  }
-};
-
+    if (input.trim()) {
+      setTasks([...tasks, input]);
+      setInput("");
+    }
+  };
 
   const deleteTask = (index) => {
     setTasks(tasks.filter((_, i) => i !== index));
@@ -58,20 +56,19 @@ function Agenda() {
               ref={provided.innerRef}
             >
               {tasks.map((task, index) => (
-              <Draggable key={task.id} draggableId={task.id} index={index}>
-                {(provided) => (
-                  <li
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                  >
-                    <span>{task.text}</span>
-                    <button onClick={() => deleteTask(index)}>✖</button>
-                  </li>
-                )}
-              </Draggable>
-            ))}
-
+                <Draggable key={index.toString()} draggableId={index.toString()} index={index}>
+                  {(provided) => (
+                    <li
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <span>{task}</span>
+                      <button onClick={() => deleteTask(index)}>✖</button>
+                    </li>
+                  )}
+                </Draggable>
+              ))}
               {provided.placeholder}
             </ul>
           )}
