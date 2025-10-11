@@ -14,13 +14,12 @@ function Agenda() {
   }, [tasks]);
 
   const addTask = () => {
-  if (input.trim()) {
-    const newTask = { id: Date.now().toString(), text: input };
-    setTasks([...tasks, newTask]);
-    setInput("");
-  }
-};
-
+    if (input.trim()) {
+      const newTask = { id: Date.now().toString(), text: input };
+      setTasks([...tasks, newTask]);
+      setInput("");
+    }
+  };
 
   const deleteTask = (index) => {
     setTasks(tasks.filter((_, i) => i !== index));
@@ -53,25 +52,21 @@ function Agenda() {
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="tasks">
           {(provided) => (
-            <ul
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
+            <ul {...provided.droppableProps} ref={provided.innerRef}>
               {tasks.map((task, index) => (
-              <Draggable key={task.id} draggableId={task.id} index={index}>
-                {(provided) => (
-                  <li
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                  >
-                    <span>{task.text}</span>
-                    <button onClick={() => deleteTask(index)}>✖</button>
-                  </li>
-                )}
-              </Draggable>
-            ))}
-
+                <Draggable key={task.id} draggableId={task.id} index={index}>
+                  {(provided) => (
+                    <li
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <span>{task.text}</span>
+                      <button onClick={() => deleteTask(index)}>✖</button>
+                    </li>
+                  )}
+                </Draggable>
+              ))}
               {provided.placeholder}
             </ul>
           )}
