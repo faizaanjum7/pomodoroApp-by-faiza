@@ -440,6 +440,19 @@ h1 {
   width: 100%;
 }
 
+/*smooth arrange - drag and drop tasks*/
+li {
+  cursor: grab;
+  transition: all 0.2s ease;
+}
+
+li:active {
+  cursor: grabbing;
+  transform: scale(1.02);
+  background-color: #f5f5f5;
+}
+
+
 /* Scrollbar Styling (works in Chrome, Edge, Brave, etc.) */
 ::-webkit-scrollbar {
   width: 10px;
