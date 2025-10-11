@@ -22,14 +22,15 @@ function Agenda() {
   };
 
   const deleteTask = (index) => {
-    setTasks(tasks.filter((_, i) => i !== index));
+    const updated = tasks.filter((_, i) => i !== index);
+    setTasks(updated);
   };
 
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
     const updatedTasks = Array.from(tasks);
-    const [reorderedItem] = updatedTasks.splice(result.source.index, 1);
-    updatedTasks.splice(result.destination.index, 0, reorderedItem);
+    const [movedTask] = updatedTasks.splice(result.source.index, 1);
+    updatedTasks.splice(result.destination.index, 0, movedTask);
     setTasks(updatedTasks);
   };
 
@@ -42,9 +43,7 @@ function Agenda() {
           placeholder="Enter your task..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") addTask();
-          }}
+          onKeyDown={(e) => e.key === "Enter" && addTask()}
         />
         <button onClick={addTask}>Add</button>
       </div>
@@ -55,11 +54,23 @@ function Agenda() {
             <ul {...provided.droppableProps} ref={provided.innerRef}>
               {tasks.map((task, index) => (
                 <Draggable key={task.id} draggableId={task.id} index={index}>
-                  {(provided) => (
+                  {(provided, snapshot) => (
                     <li
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
+                      style={{
+                        ...provided.draggableProps.style,
+                        transition: snapshot.isDragging
+                          ? "none"
+                          : "transform 0.25s ease",
+                        backgroundColor: snapshot.isDragging
+                          ? "#f5f5f5"
+                          : "#fff",
+                        boxShadow: snapshot.isDragging
+                          ? "0 3px 6px rgba(0,0,0,0.15)"
+                          : "none",
+                      }}
                     >
                       <span>{task.text}</span>
                       <button onClick={() => deleteTask(index)}>✖</button>
