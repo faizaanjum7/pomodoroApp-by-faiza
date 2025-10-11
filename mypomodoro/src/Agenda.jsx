@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import "./App.css";
 
 function Agenda() {
@@ -23,6 +24,14 @@ function Agenda() {
     setTasks(tasks.filter((_, i) => i !== index));
   };
 
+  const handleOnDragEnd = (result) => {
+    if (!result.destination) return;
+    const updatedTasks = Array.from(tasks);
+    const [reorderedItem] = updatedTasks.splice(result.source.index, 1);
+    updatedTasks.splice(result.destination.index, 0, reorderedItem);
+    setTasks(updatedTasks);
+  };
+
   return (
     <div className="agenda-container">
       <h1>Today's Agenda</h1>
@@ -38,14 +47,33 @@ function Agenda() {
         />
         <button onClick={addTask}>Add</button>
       </div>
-      <ul>
-        {tasks.map((task, index) => (
-          <li key={index}>
-            <span>{task}</span>
-            <button onClick={() => deleteTask(index)}>✖</button>
-          </li>
-        ))}
-      </ul>
+
+      <DragDropContext onDragEnd={handleOnDragEnd}>
+        <Droppable droppableId="tasks">
+          {(provided) => (
+            <ul
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              {tasks.map((task, index) => (
+                <Draggable key={index.toString()} draggableId={index.toString()} index={index}>
+                  {(provided) => (
+                    <li
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <span>{task}</span>
+                      <button onClick={() => deleteTask(index)}>✖</button>
+                    </li>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </ul>
+          )}
+        </Droppable>
+      </DragDropContext>
     </div>
   );
 }
