@@ -387,6 +387,26 @@ h1 {
 }
 
 
+/* Clear All Button */
+.clear-all-btn {
+  margin-top: 15px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.clear-all-btn:hover {
+  background: linear-gradient(135deg, #ee5a24, #ff6b6b);
+  transform: translateY(-1px);
+  opacity: 0.9;
+}
+
 /* === NAVBAR (GLASS STYLE) === */
 
 .navbar {

@@ -4,8 +4,21 @@ import "./App.css";
 
 function Agenda() {
   const [tasks, setTasks] = useState(() => {
-    const saved = localStorage.getItem("agendaTasks");
-    return saved ? JSON.parse(saved) : [];
+    try {
+      const saved = localStorage.getItem("agendaTasks");
+      if (!saved) return [];
+      
+      const parsed = JSON.parse(saved);
+      // Filter out invalid tasks (empty text, null, undefined, or invalid structure)
+      const validTasks = Array.isArray(parsed) 
+        ? parsed.filter(task => task && typeof task === 'object' && task.text && task.text.trim() !== '')
+        : [];
+      
+      return validTasks;
+    } catch (error) {
+      console.error('Error loading tasks from localStorage:', error);
+      return [];
+    }
   });
   const [input, setInput] = useState("");
 
@@ -31,6 +44,10 @@ function Agenda() {
     }
   };
 
+  const clearAllTasks = () => {
+    setTasks([]);
+  };
+
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
     const updatedTasks = Array.from(tasks);
@@ -53,6 +70,12 @@ function Agenda() {
         <button onClick={addTask}>Add</button>
       </div>
 
+      {tasks.length > 0 && (
+        <button onClick={clearAllTasks} className="clear-all-btn">
+          Clear All
+        </button>
+      )}
+
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="tasks">
           {(provided) => (
@@ -68,7 +91,7 @@ function Agenda() {
                       className={snapshot.isDragging ? "dragging" : ""}
                     >
                       <span>{task.text}</span>
-                      <button onClick={() => deleteTask(index)}>✖</button>
+                      <button onClick={() => deleteTask(index)}>×</button>
                     </li>
                   )}
                 </Draggable>
